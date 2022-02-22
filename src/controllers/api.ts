@@ -4,13 +4,13 @@ import CoursesData from "../../data/courses.json";
 import { Courses } from "../../model/courseModel";
 
 export const loadApiEndpoints = (app: Application): void => {
-  app.get("/", (req: Request, res: Response) => {
+  app.get("/api/getCurses", (req: Request, res: Response) => {
     return res.status(200).send(CoursesData);
   });
 
-  app.post("/", (req: Request, res: Response) => {
+  app.post("api/postCurses", (req: Request, res: Response) => {
     const itemId = CoursesData.data.map((res) => res.id);
-    const newId = itemId.length > 0 ? Math.max.apply(Math, ...itemId) + 1 : 1;
+    const newId = itemId.length > 0 ? Math.max.apply(Math, itemId) + 1 : 1;
 
     const newCourse = new Courses(
       newId,
@@ -24,7 +24,7 @@ export const loadApiEndpoints = (app: Application): void => {
     res.status(201).json(newCourse);
   });
 
-  app.put("/:id", (req: Request, res: Response) => {
+  app.put("api/putCurses/:id", (req: Request, res: Response) => {
     const itemCourse = CoursesData.data.find((item) => {
       return item.id === parseInt(req.params.id);
     });
@@ -55,7 +55,7 @@ export const loadApiEndpoints = (app: Application): void => {
     }
   });
 
-  app.delete("/:id", (req: Request, res: Response) => {
+  app.delete("api/deleteCurses/:id", (req: Request, res: Response) => {
     const course = CoursesData.data.find((item) => {
       return item.id === parseInt(req.params.id);
     });
